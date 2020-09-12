@@ -16,6 +16,10 @@ public class UserInfoDTO {
     private String username;
     @ApiModelProperty(value = "密码", required = true)
     private String password;
+    @ApiModelProperty(value = "邮箱", required = true)
+    private String mail;
+    @ApiModelProperty(value = "手机号", required = true)
+    private String phone;
     @ApiModelProperty(value = "头像")
     private String avatar;
     @ApiModelProperty(value = "性别")
@@ -54,6 +58,22 @@ public class UserInfoDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAvatar() {
@@ -141,6 +161,8 @@ public class UserInfoDTO {
         return "UserInfoDTO{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", phone='" + phone + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", sex=" + sex +
                 ", birth=" + birth +

@@ -1,5 +1,6 @@
 package com.ouc.forum.service;
 
+import com.ouc.forum.DTO.UserBIDTO;
 import com.ouc.forum.DTO.UserInfoDTO;
 import com.ouc.forum.DTO.UserRLDTO;
 import com.ouc.forum.entity.User;
@@ -36,30 +37,24 @@ public class UserService {
      * @Param [userRLDTO]
      * @Return java.lang.String
      **/
-    public String register(UserRLDTO userRLDTO) {
-        String msg = "";
-        if (!userRLDTO.getMail().isEmpty() && validateMail(userRLDTO.getMail())) {
+    public int register(UserRLDTO userRLDTO) {
+        if (!userRLDTO.getPhone().isEmpty() && validatePhone(userRLDTO.getPhone())) {
             User user = new User();
             user.setPassword(userRLDTO.getPassword());
-            user.setMail(userRLDTO.getMail());
+            user.setPhone(userRLDTO.getPhone());
             user.setUsername(userRLDTO.getUsername());
             user.setCreateTime(new Timestamp(System.currentTimeMillis()));
             user.setLastLogin(new Timestamp(System.currentTimeMillis()));
             user.setExp(60);
             user.setSecrecy((byte) 0);
             user.setActivate((byte) 1);
+            user.setAvatar("../assets/avatar.jpg");
             userRepository.save(user);
-            msg = "reg by mail";
-        } else if (!userRLDTO.getPhone().isEmpty() && validatePhone(userRLDTO.getPhone())) {
-            User user = new User();
-            user.setPassword(userRLDTO.getPassword());
-            user.setPhone(userRLDTO.getPhone());
             userRepository.save(user);
-            msg = "reg by phone";
-        }else {
-            msg = "existed!";
+            return 1;
+        } else {
+            return -1;
         }
-        return msg;
     }
 
     /**
@@ -70,25 +65,18 @@ public class UserService {
      * @Return java.lang.String
      **/
     public User login(UserRLDTO userLoginDTO) {
-        String msg = "";
-        User user = new User();
+        final User[] user = new User[1];
+        user[0] = null;
         if (!userLoginDTO.getPhone().isEmpty()) {
             Optional<User> userOptional = userRepository.findByPhone(userLoginDTO.getPhone());
-            user = userOptional.orElse(null);
-
-        } else if (!userLoginDTO.getMail().isEmpty()) {
-            Optional<User> userOptional = userRepository.findByMail(userLoginDTO.getMail());
-            user = userOptional.orElse(null);
+            userOptional.ifPresent(findUser -> {
+                if(findUser.getPassword().equals(userLoginDTO.getPassword())){
+                    user[0] = findUser;
+                    user[0].setPassword("");
+                }
+            });
         }
-
-        assert user != null;
-        if (user.getPassword().equals(userLoginDTO.getPassword())) {
-            user.setPassword(null);
-            msg = "ok";
-        } else {
-            return null;
-        }
-        return user;
+        return user[0];
     }
 
     /**
@@ -103,6 +91,8 @@ public class UserService {
         User user = new User();
         user.setId(id);
         user.setUsername(userInfoDTO.getUsername());
+        user.setMail(userInfoDTO.getMail());
+        user.setPhone(userInfoDTO.getPhone());
         user.setSecrecy(userInfoDTO.getSecrecy());
         user.setPassword(userInfoDTO.getPassword());
         user.setAvatar(userInfoDTO.getAvatar());
@@ -117,5 +107,27 @@ public class UserService {
         userRepository.save(user);
         msg = "changed!";
         return msg;
+    }
+
+    /**
+     * @Author Tan Mingyao
+     * @Description
+     * @LastModified 9:45 2020/9/12
+     * @Param [id]
+     * @Return com.ouc.forum.DTO.UserBIDTO
+     **/
+    public UserBIDTO findUser(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        User user = userOptional.orElse(null);
+        if (user == null) {
+            return null;
+        } else {
+            UserBIDTO userBIDTO = new UserBIDTO();
+            userBIDTO.setUsername(user.getUsername());
+            userBIDTO.setAvatar(user.getAvatar());
+            userBIDTO.setMotto(user.getMotto());
+            userBIDTO.setSex(user.getSex());
+            return userBIDTO;
+        }
     }
 }

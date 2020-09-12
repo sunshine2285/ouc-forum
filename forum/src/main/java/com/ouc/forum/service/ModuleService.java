@@ -1,9 +1,11 @@
 package com.ouc.forum.service;
 
 import com.ouc.forum.DTO.ModuleDTO;
+import com.ouc.forum.DTO.TieDTO;
 import com.ouc.forum.entity.Module;
 import com.ouc.forum.entity.Tie;
 import com.ouc.forum.repository.ModuleRepository;
+import com.ouc.forum.repository.ReplyRepository;
 import com.ouc.forum.repository.TieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,9 @@ public class ModuleService {
     private ModuleRepository moduleRepository;
     @Autowired
     private TieRepository tieRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
+
 
     /**
      * @Author Tan Mingyao
@@ -65,10 +71,17 @@ public class ModuleService {
      * @Param [mid]
      * @Return java.util.List<com.ouc.forum.entity.Tie>
      **/
-    public List<Tie> getTieByPage(Long mid, int pageNum) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");  // 这里的"recordNo"是实体类的主键，记住一定要是实体类的属性，而不能是数据库的字段
-        Pageable pageable = PageRequest.of(pageNum - 1, 6, sort); // （当前页， 每页记录数， 排序方式）
-        Page<Tie> tieList = tieRepository.findByMid(mid, pageable);
-        return tieList.getContent();
+    public List<TieDTO> getTieByPage(Long mid, int pageNum) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        // （当前页， 每页记录数， 排序方式）
+        Pageable pageable = PageRequest.of(pageNum - 1, 6, sort);
+        Page<Tie> tiePage = tieRepository.findByMid(mid, pageable);
+        List<Tie> tieList = tiePage.getContent();
+        ArrayList<TieDTO> tieDTOList = new ArrayList<>();
+        for (Tie tie : tieList) {
+            TieDTO tieDTO = new TieDTO(tie,replyRepository.replyCount(tie.getId()));
+            tieDTOList.add(tieDTO);
+        }
+        return tieDTOList;
     }
 }

@@ -1,5 +1,6 @@
 package com.ouc.forum.controller;
 
+import com.ouc.forum.DTO.UserBIDTO;
 import com.ouc.forum.DTO.UserInfoDTO;
 import com.ouc.forum.DTO.UserRLDTO;
 import com.ouc.forum.entity.User;
@@ -31,7 +32,7 @@ public class UserController {
      **/
     @ApiOperation(value = "用户注册", notes = "学生输入信息注册")
     @PostMapping(value = "/register", produces = "application/json")
-    public String register(@RequestBody UserRLDTO userRegDTO) {
+    public Integer register(@RequestBody UserRLDTO userRegDTO) {
         return userService.register(userRegDTO);
     }
 
@@ -59,5 +60,18 @@ public class UserController {
     @PostMapping(value = "/{id}", produces = "application/json")
     public String changeUserInfo(@PathVariable Long id, UserInfoDTO userInfoDTO) {
         return userService.changeUserInfo(id, userInfoDTO);
+    }
+
+    /**
+     * @Author Tan Mingyao
+     * @Description
+     * @LastModified 9:45 2020/9/12
+     * @Param [id]
+     * @Return com.ouc.forum.DTO.UserBIDTO
+     **/
+    @ApiOperation(value = "查询用户基本信息", notes = "查询显示在帖子处的用户信息")
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public UserBIDTO findUser(@PathVariable Long id) {
+        return userService.findUser(id);
     }
 }

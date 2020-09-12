@@ -17,8 +17,7 @@ import java.util.ArrayList;
  */
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-//    @Query
-//    ArrayList<Reply> findAllByTid(long tid);
+
     @Query(value = "SELECT count(*) FROM reply WHERE tid = :tid",nativeQuery = true)
     long replyCount(@Param("tid") long tid);
 

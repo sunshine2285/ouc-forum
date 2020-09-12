@@ -1,6 +1,7 @@
 package com.ouc.forum.controller;
 
 import com.ouc.forum.DTO.ModuleDTO;
+import com.ouc.forum.DTO.TieDTO;
 import com.ouc.forum.entity.Module;
 import com.ouc.forum.entity.Tie;
 import com.ouc.forum.service.ModuleService;
@@ -24,8 +25,11 @@ import java.util.List;
 @RequestMapping("/module")
 @Api(value = "版块", tags = "版块接口")
 public class ModuleController {
-    @Autowired
-    private ModuleService moduleService;
+    private final ModuleService moduleService;
+
+    public ModuleController(ModuleService moduleService) {
+        this.moduleService = moduleService;
+    }
 
     @GetMapping(value = "", produces = "application/json")
     @ApiOperation(value = "所有版块", notes = "查询所有版块")
@@ -41,7 +45,7 @@ public class ModuleController {
 
     @GetMapping(value = "/tie/{mid}/{pageNum}", produces = "application/json")
     @ApiOperation(value = "版块帖子展示", notes = "查询某版块下所有帖子")
-    public List<Tie> getTieByPage(@ApiParam(value = "版块ID", required = true) @PathVariable Long mid, @ApiParam(value = "页数", required = true) @PathVariable int pageNum) {
+    public List<TieDTO> getTieByPage(@ApiParam(value = "版块ID", required = true) @PathVariable Long mid, @ApiParam(value = "页数", required = true) @PathVariable int pageNum) {
         return moduleService.getTieByPage(mid, pageNum);
     }
 

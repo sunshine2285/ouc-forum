@@ -32,7 +32,7 @@ public class TieService {
         Tie tie = tieRepository.findById(id);
         tie.setView(tie.getView() + 1);
         tieRepository.save(tie);
-        TieDTO tieDTO = new TieDTO(tie,replyRepository.replyCount(id));
+        TieDTO tieDTO = new TieDTO(tie,replyRepository.replyCount(id) + 1);
         return tieDTO;
     }
 

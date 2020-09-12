@@ -2,15 +2,13 @@ package com.ouc.forum.service;
 
 import com.ouc.forum.entity.Reply;
 import com.ouc.forum.repository.ReplyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,16 +26,20 @@ public class ReplyService {
         int PAGE_SIZE = 20;
         if (pageNum == 1) {
             Reply reply = new Reply(tieService.getTie(tid));
-            Page<Reply> replyPage = replyRepository.findAll(PageRequest.of(0, PAGE_SIZE -1));
+            Page<Reply> replyPage = replyRepository.findAllByTid(tid, PageRequest.of(0, PAGE_SIZE - 1));
             ArrayList<Reply> replies = new ArrayList<>(replyPage.getContent());
             replies.add(0, reply);
             return replies;
         } else {
-            Page<Reply> prePage = replyRepository.findAll(PageRequest.of(pageNum-1, PAGE_SIZE));
-            Page<Reply> curPage = replyRepository.findAll(PageRequest.of(pageNum, PAGE_SIZE));
+            Page<Reply> prePage = replyRepository.findAllByTid(tid, PageRequest.of(pageNum - 2, PAGE_SIZE));
+            Page<Reply> curPage = replyRepository.findAllByTid(tid, PageRequest.of(pageNum - 1, PAGE_SIZE));
             ArrayList<Reply> replies = new ArrayList<>(curPage.getContent());
-            replies.remove(replies.size()-1);
-            replies.add(0, prePage.getContent().get(prePage.getSize()-1));
+            if (!curPage.getContent().isEmpty()) {
+                replies.remove(replies.size() - 1);
+            }
+            if (!prePage.getContent().isEmpty()) {
+                replies.add(0, prePage.getContent().get(prePage.getSize() - 1));
+            }
             return replies;
         }
     }
@@ -47,6 +49,7 @@ public class ReplyService {
     }
 
     public Reply createReply(Reply reply) {
+        reply.setPostTime(new Timestamp(System.currentTimeMillis()));
         return replyRepository.save(reply);
     }
 

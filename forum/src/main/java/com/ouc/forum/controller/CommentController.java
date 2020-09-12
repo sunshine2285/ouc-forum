@@ -1,12 +1,13 @@
 package com.ouc.forum.controller;
 
+import com.ouc.forum.DTO.CommentDTO;
 import com.ouc.forum.entity.Comment;
 import com.ouc.forum.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 孙浩杰
@@ -23,9 +24,9 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/{rid}}")
+    @GetMapping("/{rid}")
     @ApiOperation(value = "获取回帖下的评论",notes = "获取回帖下的所有评论")
-    public ArrayList<Comment> getCommentFormTie(@PathVariable long rid) {
+    public List<CommentDTO> getCommentFormTie(@PathVariable long rid) {
         return commentService.getCommentFromTie(rid);
     }
 
