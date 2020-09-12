@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 /**
  * @author sunhaojie
@@ -24,8 +25,21 @@ public class Tie {
   private long view;
   private String tags;
 
+    public Tie() {
+    }
 
-  public long getId() {
+    public Tie(Tie tie) {
+        this.id = tie.getId();
+        this.uid = tie.getUid();
+        this.mid = tie.getMid();
+        this.title = tie.getTitle();
+        this.content = tie.getContent();
+        this.postTime = tie.getPostTime();
+        this.view = tie.getView();
+        this.tags = tie.getTags();
+    }
+
+    public long getId() {
     return id;
   }
 

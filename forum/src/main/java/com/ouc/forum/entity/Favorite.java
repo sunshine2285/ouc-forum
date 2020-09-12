@@ -1,5 +1,8 @@
 package com.ouc.forum.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,13 +13,17 @@ import javax.persistence.Id;
  * @version 1.0
  * @date 2020/9/8 11:05
  */
+@ApiModel("收藏")
 @Entity
 public class Favorite {
 
+  @ApiModelProperty(value = "收藏ID")
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  @ApiModelProperty(value = "收藏贴ID")
   private long tid;
+  @ApiModelProperty(value = "用户ID")
   private long uid;
 
 

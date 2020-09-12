@@ -21,19 +21,16 @@ public class FavoriteService {
     }
 
     public ArrayList<Favorite> selectAll(long uid) {
-        //todo: 从repository获取所有用户id为uid的收藏
-        ArrayList<Favorite> userFavorites = favoriteRepository.findAllByUid(uid);
-
-        return userFavorites;
+        return favoriteRepository.findAllByUid(uid);
     }
 
     public void delete(long uid, long tid) {
-        //todo: 调用 jpa 接口删除对应 favorite
-        // favoriteRepository.findAllByUid(uid);
+        favoriteRepository.findByUidAndTid(uid, tid).ifPresent(favorite -> {
+            favoriteRepository.deleteById(favorite.getId());
+        });
     }
 
     public Favorite save(Favorite favorite) {
-        //todo: 调用 jpa save favorite，返回存储之后的favorite
-        return favorite;
+        return favoriteRepository.save(favorite);
     }
 }

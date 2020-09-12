@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 /**
  * @author sunhaojie
@@ -22,6 +23,16 @@ public class Reply {
     private String content;
     private java.sql.Timestamp postTime;
 
+    public Reply() {
+    }
+
+    public Reply(Tie tie) {
+        this.id = tie.getId();
+        this.tid = tie.getMid();
+        this.uid = tie.getUid();
+        this.content = tie.getContent();
+        this.postTime = tie.getPostTime();
+    }
 
     @Override
     public String toString() {

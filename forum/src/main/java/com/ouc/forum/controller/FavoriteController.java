@@ -1,6 +1,5 @@
 package com.ouc.forum.controller;
 
-import com.ouc.forum.DTO.TestDTO;
 import com.ouc.forum.entity.Favorite;
 import com.ouc.forum.service.FavoriteService;
 import io.swagger.annotations.Api;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/favorite")
-@Api(value = "用户收藏接口", tags = "123")
+@Api(value = "用户收藏接口", tags = "用户收藏接口")
 public class FavoriteController {
 
     final FavoriteService favoriteService;

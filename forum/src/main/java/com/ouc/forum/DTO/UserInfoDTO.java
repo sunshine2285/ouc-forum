@@ -1,72 +1,43 @@
-package com.ouc.forum.entity;
+package com.ouc.forum.DTO;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import jdk.nashorn.internal.objects.annotations.Getter;
 
-import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
- * @author sunhaojie
- * @version 1.0
- * @date 2020/9/8 11:05
+ * @Author fxjy
+ * @Date 2020/9/9 13:07
+ * @Version 1.0
  */
-@Entity
-@ApiModel(value = "用户信息")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "用户ID")
-    private long id;
-
-    @Column()
+@ApiModel(value = "用户可更改信息")
+public class UserInfoDTO {
+    @ApiModelProperty(value = "用户名", required = true)
     private String username;
-
+    @ApiModelProperty(value = "密码", required = true)
     private String password;
-
-    private String mail;
-
-    private String phone;
-
+    @ApiModelProperty(value = "头像")
     private String avatar;
-
+    @ApiModelProperty(value = "性别")
     private byte sex;
-
-    private java.sql.Date birth;
-
+    @ApiModelProperty(value = "生日")
+    private Date birth;
+    @ApiModelProperty(value = "学号")
     private String sno;
-
+    @ApiModelProperty(value = "专业")
     private String major;
-
+    @ApiModelProperty(value = "地区")
     private String location;
-
+    @ApiModelProperty(value = "QQ")
     private String qq;
-
+    @ApiModelProperty(value = "个性签名")
     private String motto;
-
+    @ApiModelProperty(value = "经验")
     private int exp;
-
+    @ApiModelProperty(value = "是否保密")
     private byte secrecy;
 
-    private Timestamp createTime;
-
-    private Timestamp lastLogin;
-
-    private byte activate;
-
-    public User() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public UserInfoDTO() {
     }
 
     public String getUsername() {
@@ -83,22 +54,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getAvatar() {
@@ -181,27 +136,21 @@ public class User {
         this.secrecy = secrecy;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(Timestamp lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
-    public byte getActivate() {
-        return activate;
-    }
-
-    public void setActivate(byte activate) {
-        this.activate = activate;
+    @Override
+    public String toString() {
+        return "UserInfoDTO{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", sex=" + sex +
+                ", birth=" + birth +
+                ", sno='" + sno + '\'' +
+                ", major='" + major + '\'' +
+                ", location='" + location + '\'' +
+                ", qq='" + qq + '\'' +
+                ", motto='" + motto + '\'' +
+                ", exp=" + exp +
+                ", secrecy=" + secrecy +
+                '}';
     }
 }
