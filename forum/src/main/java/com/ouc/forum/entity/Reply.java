@@ -27,8 +27,7 @@ public class Reply {
     }
 
     public Reply(Tie tie) {
-        this.id = tie.getId();
-        this.tid = tie.getMid();
+        this.tid = tie.getId();
         this.uid = tie.getUid();
         this.content = tie.getContent();
         this.postTime = tie.getPostTime();

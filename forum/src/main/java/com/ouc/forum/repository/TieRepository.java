@@ -1,6 +1,7 @@
 package com.ouc.forum.repository;
 
 import com.ouc.forum.entity.Tie;
+import com.ouc.forum.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * @Author Song
@@ -27,7 +29,7 @@ public interface TieRepository extends JpaRepository<Tie, Long> {
     ArrayList<Tie> findAllByMid(long mid);
 
     @Query
-    Tie findById(long id);
+    Optional<Tie> findById(long id);
 
     @Query
     ArrayList<Tie> findAllByTitleLike(String key);

@@ -31,7 +31,7 @@ public class TieController {
     @GetMapping(value = "/{id}",produces = "application/json")
     @ApiOperation(value = "根据帖子ID获取某帖子",notes = "")
     public TieDTO getTie(@PathVariable long id) {
-        return tieService.getTie(id);
+        return tieService.getTie(id, true);
     }
 
     @GetMapping(value = "/search/{key}",produces = "application/json")
@@ -46,10 +46,10 @@ public class TieController {
         return tieService.createTie(tie);
     }
 
-    @GetMapping(value = "/search/hot",produces = "application/json")
+    @GetMapping(value = "/search/hot/{count}",produces = "application/json")
     @ApiOperation(value = "查询热帖",notes = "")
-    public ArrayList<Tie> searchHotTie() {
-        return tieService.searchHotTie();
+    public ArrayList<TieDTO> searchHotTie(@PathVariable int count) {
+        return tieService.searchHotTie(count);
     }
 
     @GetMapping(value = "/search/user/{uid}",produces = "application/json")

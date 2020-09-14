@@ -53,14 +53,16 @@ public class ModuleService {
      **/
     public ModuleDTO get(Long mid) {
         Optional<Module> moduleOptional = moduleRepository.findById(mid);
-        Module module = moduleOptional.orElse(null);
-        long tieNum = tieRepository.tieCount(mid);
         ModuleDTO moduleDTO = new ModuleDTO();
-        moduleDTO.setId(module.getId());
-        moduleDTO.setCover(module.getCover());
-        moduleDTO.setName(module.getName());
-        moduleDTO.setInfo(module.getInfo());
-        moduleDTO.setTieNum(tieNum);
+
+        moduleOptional.ifPresent(module -> {
+            moduleDTO.setId(module.getId());
+            moduleDTO.setCover(module.getCover());
+            moduleDTO.setName(module.getName());
+            moduleDTO.setInfo(module.getInfo());
+            moduleDTO.setTieNum(tieRepository.tieCount(mid));
+        });
+
         return moduleDTO;
     }
 

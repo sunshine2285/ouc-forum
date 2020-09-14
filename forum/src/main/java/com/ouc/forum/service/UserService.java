@@ -21,10 +21,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean validateMail(String mail) {
-        return !userRepository.findByMail(mail).isPresent();
-    }
-
     public boolean validatePhone(String phone) {
         return !userRepository.findByPhone(phone).isPresent();
     }
@@ -49,7 +45,6 @@ public class UserService {
             user.setSecrecy((byte) 0);
             user.setActivate((byte) 1);
             user.setAvatar("../assets/avatar.jpg");
-            userRepository.save(user);
             userRepository.save(user);
             return 1;
         } else {

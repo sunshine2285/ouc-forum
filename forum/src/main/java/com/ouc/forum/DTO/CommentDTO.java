@@ -33,7 +33,7 @@ public class CommentDTO {
     private java.sql.Timestamp postTime;
 
     public CommentDTO(Comment comment) {
-        this.id = comment.getCid();
+        this.id = comment.getId();
         this.rid = comment.getRid();
         this.cid = comment.getCid();
         this.uid = comment.getUid();
@@ -111,5 +111,20 @@ public class CommentDTO {
 
     public void setPostTime(Timestamp postTime) {
         this.postTime = postTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "id=" + id +
+                ", rid=" + rid +
+                ", cid=" + cid +
+                ", atUsername='" + atUsername + '\'' +
+                ", uid=" + uid +
+                ", username='" + username + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", content='" + content + '\'' +
+                ", postTime=" + postTime +
+                '}';
     }
 }

@@ -6,12 +6,11 @@ import com.ouc.forum.repository.ReplyRepository;
 import com.ouc.forum.repository.TieRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
-import javax.sound.midi.Soundbank;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * @Author Song
@@ -28,12 +27,17 @@ public class TieService {
         return tieRepository.findAllByMid(mid);
     }
 
-    public TieDTO getTie(long id) {
-        Tie tie = tieRepository.findById(id);
-        tie.setView(tie.getView() + 1);
-        tieRepository.save(tie);
-        TieDTO tieDTO = new TieDTO(tie,replyRepository.replyCount(id) + 1);
-        return tieDTO;
+    public TieDTO getTie(long id, final boolean isView) {
+        Optional<Tie> optionalTie = tieRepository.findById(id);
+        if (optionalTie.isPresent()) {
+            Tie tie = optionalTie.get();
+            if (isView) {
+                tie.setView(tie.getView() + 1);
+                tieRepository.save(tie);
+            }
+            return new TieDTO(tie, replyRepository.replyCount(id) + 1);
+        }
+        return null;
     }
 
     public ArrayList<Tie> searchTie(String key) {
@@ -45,11 +49,11 @@ public class TieService {
         return tieRepository.save(tie);
     }
 
-    public ArrayList<Tie> searchHotTie() {
+    public ArrayList<TieDTO> searchHotTie(int count) {
         ArrayList<Tie> all = (ArrayList<Tie>) tieRepository.findAll(Sort.by(Sort.Direction.DESC, "view"));
-        ArrayList<Tie> top = new ArrayList<Tie>();
-        for (int i = 0; i < 1; i++) {
-            top.add(all.get(i));
+        ArrayList<TieDTO> top = new ArrayList<>();
+        for (int i = 0; i < count && i < all.size(); i++) {
+            top.add(new TieDTO(all.get(i), replyRepository.replyCount(all.get(i).getId()) + 1));
         }
         return top;
     }

@@ -27,7 +27,7 @@ public class CommentController {
     @GetMapping("/{rid}")
     @ApiOperation(value = "获取回帖下的评论",notes = "获取回帖下的所有评论")
     public List<CommentDTO> getCommentFormTie(@PathVariable long rid) {
-        return commentService.getCommentFromTie(rid);
+        return commentService.getComments(rid);
     }
 
     @PostMapping(value = "/", consumes = "application/json")

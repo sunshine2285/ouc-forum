@@ -25,7 +25,7 @@ public class ReplyService {
     public List<Reply> getAllReply(long tid, int pageNum) {
         int PAGE_SIZE = 20;
         if (pageNum == 1) {
-            Reply reply = new Reply(tieService.getTie(tid));
+            Reply reply = new Reply(tieService.getTie(tid, false));
             Page<Reply> replyPage = replyRepository.findAllByTid(tid, PageRequest.of(0, PAGE_SIZE - 1));
             ArrayList<Reply> replies = new ArrayList<>(replyPage.getContent());
             replies.add(0, reply);

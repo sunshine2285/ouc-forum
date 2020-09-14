@@ -40,7 +40,8 @@ public class ModuleController {
     @GetMapping(value = "/{mid}", produces = "application/json")
     @ApiOperation(value = "单个版块", notes = "查询单个版块")
     public ModuleDTO get(@ApiParam(value = "版块ID", required = true) @PathVariable Long mid) {
-        return moduleService.get(mid);
+        ModuleDTO moduleDTO = moduleService.get(mid);
+        return moduleDTO.getId() != 0 ? moduleDTO : null;
     }
 
     @GetMapping(value = "/tie/{mid}/{pageNum}", produces = "application/json")

@@ -36,17 +36,15 @@ public class CommentService {
         Optional<Comment> commentOptional = commentRepository.findById(commentDTO.getCid());
         commentOptional.ifPresent(atComment -> {
             Optional<User> atUserOptional = userRepository.findById(comment.getUid());
-            atUserOptional.ifPresent(atUser -> {
-                commentDTO.setAtUsername(atUser.getUsername());
-            });
+            atUserOptional.ifPresent(atUser -> commentDTO.setAtUsername(atUser.getUsername()));
         });
         return commentDTO;
     }
 
-    public List<CommentDTO> getCommentFromTie(long rid) {
+    public List<CommentDTO> getComments(long rid) {
         List<Comment> commentList = commentRepository.findAllByRid(rid);
         List<CommentDTO> commentDTOList = new ArrayList<>();
-        commentList.forEach(comment -> commentDTOList.add(new CommentDTO(comment)));
+        commentList.forEach(comment -> commentDTOList.add(comment2Dto(comment)));
         return commentDTOList;
     }
 
