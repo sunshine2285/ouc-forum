@@ -44,7 +44,7 @@ public class UserService {
             user.setExp(60);
             user.setSecrecy((byte) 0);
             user.setActivate((byte) 1);
-            user.setAvatar("../assets/avatar.jpg");
+            user.setAvatar("http://sunshine-sun.cn:8080/avatar.png");
             userRepository.save(user);
             return 1;
         } else {
